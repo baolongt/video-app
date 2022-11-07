@@ -202,7 +202,7 @@ export function JoiningScreen({
 										left: 0
 									}}
 								>
-									<Typography>Camera is Turned Off</Typography>
+									<Typography>Camera đang tắt</Typography>
 								</Box>
 							) : null}
 
@@ -220,7 +220,7 @@ export function JoiningScreen({
 								>
 									<Grid item>
 										<Tooltip
-											title={micOn ? "Turn off mic" : "Turn on mic"}
+											title={micOn ? "Tắt mic" : "Bật mic"}
 											arrow
 											placement="top"
 										>
@@ -243,7 +243,7 @@ export function JoiningScreen({
 									</Grid>
 									<Grid item>
 										<Tooltip
-											title={webcamOn ? "Turn off camera" : "Turn on camera"}
+											title={webcamOn ? "Tắt camera" : "Mở camera"}
 											arrow
 											placement="top"
 										>
@@ -273,12 +273,8 @@ export function JoiningScreen({
 								marginTop: "1rem"
 							}}
 							id="outlined"
-							label="Name"
-							helperText={
-								participantName.length < 3
-									? "Enter Name with which you would like to join meeting"
-									: ""
-							}
+							label="Tên"
+							helperText={participantName.length < 3 ? "Nhập tên của bạn" : ""}
 							onChange={(e) => {
 								setParticipantName(e.target.value);
 							}}

@@ -1,6 +1,6 @@
 import { Comment, Typography } from "antd";
 import { borderRadius } from "../../constant.js";
-const { Title, Text } = Typography;
+const { Text } = Typography;
 function formatAMPM(date) {
 	var hours = date.getHours();
 	var minutes = date.getMinutes();
@@ -30,7 +30,7 @@ const MessageList = ({ messages }) => {
 								style={{
 									color: "#FFFFFF",
 									fontWeight: "bold",
-									fontSize: "20px"
+									fontSize: "16px"
 								}}
 							>
 								{senderName}

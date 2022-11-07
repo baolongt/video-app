@@ -39,7 +39,7 @@ const MeetingChat = ({ tollbarHeight }) => {
 					value={message}
 					fullWidth
 					id="outlined-basic"
-					label="Chat here"
+					label="Nhắn tin"
 					variant="outlined"
 					onChange={(e) => {
 						handleTexting(e.target.value);

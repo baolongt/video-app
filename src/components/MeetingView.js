@@ -1,12 +1,50 @@
+import { Button, Grid, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import { useMeeting } from "@videosdk.live/react-sdk";
 import { useState } from "react";
 import MeetingChat from "./Chat/MeetingChat.js";
-import ConnectionsView from "./View/ConnectionsView.js";
 import ParticipantsView from "./View/ParticipantsView.js";
+import { red } from "@material-ui/core/colors";
+import {
+	Mic,
+	MicOff,
+	Videocam,
+	VideocamOff,
+	PresentToAllIcon,
+	CallEnd,
+	PresentToAll,
+	PausePresentation,
+	RadioButtonChecked
+} from "@material-ui/icons";
+const useStyles = makeStyles((theme) => ({
+	video: {
+		borderRadius: "10px",
+		backgroundColor: "#1c1c1c",
+		height: "100%",
+		width: "100%",
+		objectFit: "cover",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center"
+	},
+
+	toggleButton: {
+		borderRadius: "100%",
+		minWidth: "auto",
+		width: "44px",
+		height: "44px"
+	},
+
+	previewBox: {
+		width: "100%",
+		height: "45vh",
+		position: "relative"
+	}
+}));
 
 function MeetingView({ onNewMeetingIdToken, onMeetingLeave }) {
 	const [participantViewVisible, setParticipantViewVisible] = useState(true);
-
+	const theme = useTheme();
+	const styles = useStyles(theme);
 	function onParticipantJoined(participant) {
 		console.log(" onParticipantJoined", participant);
 	}
@@ -93,10 +131,9 @@ function MeetingView({ onNewMeetingIdToken, onMeetingLeave }) {
 	});
 
 	const handleRecording = () => {
-		if (isRecording) {
+		if (!isRecording) {
 			startRecording();
-		}
-		stopRecording();
+		} else stopRecording();
 	};
 
 	const tollbarHeight = 120;
@@ -110,26 +147,115 @@ function MeetingView({ onNewMeetingIdToken, onMeetingLeave }) {
 			}}
 		>
 			<div style={{ height: tollbarHeight }}>
-				<button className={"button red"} onClick={leave}>
-					LEAVE
-				</button>
-				<button className={"button blue"} onClick={toggleMic}>
-					{localMicOn ? "Disable mic" : "Enable mic"}
-				</button>
-				<button
-					className={"button blue"}
-					onClick={() => {
-						toggleWebcam();
-					}}
-				>
-					{localWebcamOn ? "Disable webcam" : "Enable webcam"}
-				</button>
-				<button className={"button blue"} onClick={toggleScreenShare}>
-					{localScreenShareOn ? "Disable screen share" : "Enable screen share"}
-				</button>
-				<button className={"button blue"} onClick={handleRecording}>
-					{isRecording ? "Disable screen share" : "Recording"}
-				</button>
+				<Grid container alignItems="center" justify="center" spacing={2}>
+					<Grid item>
+						<Tooltip title={"Thoát"} arrow placement="top">
+							<Button
+								onClick={() => leave()}
+								variant="contained"
+								style={{
+									backgroundColor: red[500],
+									color: "white"
+								}}
+								className={styles.toggleButton}
+							>
+								{<CallEnd />}
+							</Button>
+						</Tooltip>
+					</Grid>
+					<Grid item>
+						<Tooltip
+							title={localMicOn ? "Tắt mic" : "Bật mic"}
+							arrow
+							placement="top"
+						>
+							<Button
+								onClick={() => toggleMic()}
+								variant="contained"
+								style={
+									localMicOn
+										? {}
+										: {
+												backgroundColor: red[500],
+												color: "white"
+										  }
+								}
+								className={styles.toggleButton}
+							>
+								{localMicOn ? <Mic /> : <MicOff />}
+							</Button>
+						</Tooltip>
+					</Grid>
+					<Grid item>
+						<Tooltip
+							title={localWebcamOn ? "Tắt camera" : "Mở camera"}
+							arrow
+							placement="top"
+						>
+							<Button
+								onClick={() => toggleWebcam()}
+								variant="contained"
+								style={
+									localWebcamOn
+										? {}
+										: {
+												backgroundColor: red[500],
+												color: "white"
+										  }
+								}
+								className={styles.toggleButton}
+							>
+								{localWebcamOn ? <Videocam /> : <VideocamOff />}
+							</Button>
+						</Tooltip>
+					</Grid>
+					<Grid item>
+						<Tooltip
+							title={localScreenShareOn ? "Ngừng chia sẻ" : "Chia sẻ màn hình"}
+							arrow
+							placement="top"
+						>
+							<Button
+								onClick={() => toggleScreenShare()}
+								variant="contained"
+								style={
+									!localScreenShareOn
+										? {}
+										: {
+												backgroundColor: red[500],
+												color: "white"
+										  }
+								}
+								className={styles.toggleButton}
+							>
+								{!localScreenShareOn ? <PresentToAll /> : <PausePresentation />}
+							</Button>
+						</Tooltip>
+					</Grid>
+					<Grid item>
+						<Tooltip
+							title={!isRecording ? "Quay màn hình" : "Ngừng quay"}
+							arrow
+							placement="top"
+						>
+							<Button
+								onClick={() => handleRecording()}
+								variant="contained"
+								style={
+									!isRecording
+										? {}
+										: {
+												backgroundColor: red[500],
+												color: "white"
+										  }
+								}
+								className={styles.toggleButton}
+							>
+								{<RadioButtonChecked />}
+							</Button>
+						</Tooltip>
+					</Grid>
+				</Grid>
 			</div>
 			<h3 style={{ color: "#FFFFFF" }}>Meeting id is : {meetingId}</h3>
 			<div style={{ display: "flex", flex: 1 }}>
